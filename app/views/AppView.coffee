@@ -2,6 +2,7 @@ class window.AppView extends Backbone.View
 
   template: _.template '
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button> <button class="deal-button">Deal Another</button>
+    <h2 class="message"></h2>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
   '
@@ -17,8 +18,10 @@ class window.AppView extends Backbone.View
   initialize: ->
     @render()
     @model.get('playerHand').on 'bust', =>
-      @$el.prepend('<div class="message">Busted!</p>')
+      @$('.message').text('You busted!')
       @$el.find('.stand-button, .hit-button').hide()
+    @model.on 'checkScore', =>
+      @$('.message').text(@model.get('outcome'))
 
   render: ->
     @$el.children().detach()

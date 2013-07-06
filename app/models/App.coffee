@@ -2,6 +2,7 @@
 class window.App extends Backbone.Model
 
   initialize: ->
+    @set 'outcome', false
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
@@ -20,11 +21,14 @@ class window.App extends Backbone.Model
 
   checkScore: ->
     if @get('playerHand').scores()[0] > @get('dealerHand').scores()[0]
-      console.log 'Player wins'
+      @set 'outcome', "You win!"
+      @trigger ('checkScore')
     else if @get('playerHand').scores()[0] < @get('dealerHand').scores()[0]
-      console.log 'Dealer wins'
+      @set 'outcome', "You lose, haha!"
+      @trigger ('checkScore')
     else
-      console.log 'Tie'
+      @set 'outcome', "You tie!"
+      @trigger ('checkScore')
 
   newgame: ->
     console.log('newgame')
